@@ -5,7 +5,7 @@ import { completeOnboardingCall } from "../api/auth";
 import { useAuth } from "../context/AuthContext";
 
 export default function Onboarding() {
-  const { user, login } = useAuth();
+  const { user, updateUser } = useAuth();
   const [form, setForm] = useState({
     fullName: user.fullName || "",
     skills: "",
@@ -34,8 +34,8 @@ export default function Onboarding() {
     const result = await completeOnboardingCall(data, user.token);
     setLoading(false);
 
-    if (result.token) {
-      login(result);
+    if (result._id) {
+      updateUser(result);
       navigate("/dashboard");
     } else {
       setError(result.message || "Onboarding failed");
